@@ -10,7 +10,9 @@
 
 /**
  * verificar se o ano é bissexto
- * calcular o restante dos dias primeiro mes e ano
+ * calcular o restante dos dias do primeiro mes e ano
+ * calcular os dias do anos do intervalo entre as datas
+ * calcular os dias do ultimo ano
  */
 
 function verificaBissexto($ano)
@@ -78,6 +80,14 @@ function calculaDias($dataInicial, $dataFinal)
 				$diasTotais += $diasAnoAtual;
 			}
 		}
+
+		$modeloDiasAnoFinal = geraModeloDias(verificaBissexto($anoFinal)); //gera o modelo dos dias do ultimo ano
+
+		for ($i = 1; $i < $mesFinal; $i++) { //lopp que percorre os meses do ultimo ano
+			$diasTotais += $modeloDiasAnoFinal[$i]; //soma dos dias do ultimo ano
+		}
+
+		$diasTotais += $diaFinal; //soma os ultimos dias, do ultimo mês, do ultimo ano
 	}
 
 	return ($diasTotais);
@@ -226,12 +236,9 @@ verificaResultado("20", $resultadoEsperado, $resultado);
 
 function verificaResultado($nTeste, $resultadoEsperado, $resultado)
 {
-
-	echo $nTeste, " ", $resultado, "\n";
-
-	// if(intval($resultadoEsperado) == intval($resultado)) {
-	// 	echo "Teste $nTeste passou.\n";
-	// } else {
-	// 	echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
-	// }
+	if(intval($resultadoEsperado) == intval($resultado)) {
+		echo "Teste $nTeste passou.\n";
+	} else {
+		echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
+	}
 }
