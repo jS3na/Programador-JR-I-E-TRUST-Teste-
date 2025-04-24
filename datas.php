@@ -72,15 +72,10 @@ function calculaDias($dataInicial, $dataFinal)
 			$diasTotais += $modeloDiasAnoInicial[$i]; //resulta na quantidade de dias do ano inicial
 		}
 
-		if ($diferencaAnos > 1) { //verifica se tem mais de 2 anos de diferença na data
-
-			$anoAtual = $anoInicial;
-
-			for ($j = 1; $j < $diferencaAnos; $j++) { //loop que percorre os anos entre as duas datas e calcula seus dias
-				$anoAtual++;
-				$diasAnoAtual = geraDiasBissexto(verificaBissexto($anoAtual));
-				$diasTotais += $diasAnoAtual;
-			}
+		for ($j = 1; $j < $diferencaAnos; $j++) { //loop que percorre os anos entre as duas datas e calcula seus dias
+			$anoInicial++;
+			$diasAnoAtual = geraDiasBissexto(verificaBissexto($anoInicial));
+			$diasTotais += $diasAnoAtual;
 		}
 
 		$modeloDiasAnoFinal = geraModeloDias(verificaBissexto($anoFinal)); //gera o modelo dos dias do ultimo ano
@@ -98,20 +93,19 @@ function calculaDias($dataInicial, $dataFinal)
 	 * CASO AS DATAS FOREM DE ANOS IGUAIS
 	 */
 
-	if($mesInicial === $mesFinal){// verifica se são do mesmo mes
-		return $diaFinal - $diaInicial;// subtrai os dias
+	if ($mesInicial === $mesFinal) { // verifica se são do mesmo mes
+		return $diaFinal - $diaInicial; // subtrai os dias
 	}
 
 	$modeloDiasAnoIgual = geraModeloDias(verificaBissexto($anoInicial)); // gera o modelo dos dias do ano das datas
 	$diasTotais = $modeloDiasAnoIgual[$mesInicial] - $diaInicial; // calcula os dias do primeiro mes
 
-	for($k = $mesInicial + 1; $k < $mesFinal; $k++){ // loop que percorre os meses no intervalo entre o inicial e o final
+	for ($k = $mesInicial + 1; $k < $mesFinal; $k++) { // loop que percorre os meses no intervalo entre o inicial e o final
 		$diasTotais += $modeloDiasAnoIgual[$k]; // soma os dias com base no modelo
 	}
 	$diasTotais += $diaFinal; // soma dos ultimos dias do ultimo mes
 
 	return $diasTotais;
-
 }
 
 /***** Teste 01 *****/
@@ -257,7 +251,7 @@ verificaResultado("20", $resultadoEsperado, $resultado);
 
 function verificaResultado($nTeste, $resultadoEsperado, $resultado)
 {
-	if(intval($resultadoEsperado) == intval($resultado)) {
+	if (intval($resultadoEsperado) == intval($resultado)) {
 		echo "Teste $nTeste passou.\n";
 	} else {
 		echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
