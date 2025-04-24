@@ -15,6 +15,7 @@ function menorTemperatura($temperaturas) {
 
 		if($maisProximoZero === null){ // se for a primeira iteração, ele define o maisProximoZero como o primeiro numero do array
 			$maisProximoZero = $temperatura;
+			continue; // esse continue é para ele partir para o próximo ciclo no primeiro número
 		}
 
 		// essas duas linhas fazem a verificação de que se a temperatura for positiva, usa ela mesmo, e se não, transforma em positiva
