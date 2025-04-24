@@ -1,25 +1,27 @@
 <?php
 
 /**
-* Calcula o numero de dias entre 2 datas.
-* As datas passadas sempre serao validas e a primeira data sempre sera menor que a segunda data.
-* @param string $dataInicial No formato YYYY-MM-DD
-* @param string $dataFinal No formato YYYY-MM-DD
-* @return int O numero de dias entre as datas
-**/
+ * Calcula o numero de dias entre 2 datas.
+ * As datas passadas sempre serao validas e a primeira data sempre sera menor que a segunda data.
+ * @param string $dataInicial No formato YYYY-MM-DD
+ * @param string $dataFinal No formato YYYY-MM-DD
+ * @return int O numero de dias entre as datas
+ **/
 
 /**
  * verificar se o ano é bissexto
  * calcular o restante dos dias primeiro mes e ano
  */
 
-function verificaBissexto($ano){ //função para verificar se o ano é bissexto
-	if(($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0)) return true;
+function verificaBissexto($ano)
+{ //função para verificar se o ano é bissexto
+	if (($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0)) return true;
 
 	return false;
 }
 
-function geraModeloDias($bissexto){ //gera o modelo de dias com base se o ano é bissexto ou não
+function geraModeloDias($bissexto)
+{ //gera o modelo de dias com base se o ano é bissexto ou não
 	return [
 		1 => 31,
 		2 => $bissexto ? 29 : 28,
@@ -36,7 +38,13 @@ function geraModeloDias($bissexto){ //gera o modelo de dias com base se o ano é
 	];
 }
 
-function calculaDias($dataInicial, $dataFinal) {
+function geraDiasBissexto($bissexto)
+{ //gera os dias do ano com base se ele é bissexto ou não
+	return $bissexto ? 366 : 365;
+}
+
+function calculaDias($dataInicial, $dataFinal)
+{
 	/*
 		- Setembro, abril, junho e novembro tem 30 dias, todos os outros meses tem 31 exceto fevereiro que tem 28, exceto nos anos bissextos nos quais ele tem 29.
 		- Os anos bissexto tem 366 dias e os demais 365.
@@ -48,21 +56,31 @@ function calculaDias($dataInicial, $dataFinal) {
 	list($anoInicial, $mesInicial, $diaInicial) = array_map('intval', explode("-", $dataInicial)); //variaveis da data inicial (em inteiros)
 	list($anoFinal, $mesFinal, $diaFinal) = array_map('intval', explode("-", $dataFinal)); //variaveis da data final (em inteiros)
 
-	$diasPrimeiroMes = geraModeloDias(verificaBissexto($anoInicial))[$mesInicial] - $diaInicial; //calcula os dias restantes do primeiro mes
+	$diasTotais = geraModeloDias(verificaBissexto($anoInicial))[$mesInicial] - $diaInicial; //calcula os dias restantes do primeiro mes
 
-	$diasPrimeiroAno = $diasPrimeiroMes;
-	
-	if($anoFinal > $anoInicial){ //verifica se as datas iniciais e finais são de anos diferentes
+	$diferencaAnos = $anoFinal - $anoInicial;
+
+	if ($diferencaAnos > 0) { //verifica se as datas iniciais e finais são de anos diferentes
 
 		$modeloDiasAnoInicial = geraModeloDias(verificaBissexto($anoInicial)); //gera o modelo de dias com base no ano inicial
 
-		for($i = $mesInicial + 1; $i <= 12; $i++){ //loop que percorre os meses até o fim do ano inicial
-			$diasPrimeiroAno += $modeloDiasAnoInicial[$i]; //resulta na quantidade de dias do ano inicial
+		for ($i = $mesInicial + 1; $i <= 12; $i++) { //loop que percorre os meses até o fim do ano inicial
+			$diasTotais += $modeloDiasAnoInicial[$i]; //resulta na quantidade de dias do ano inicial
 		}
 
+		if ($diferencaAnos > 1) { //verifica se tem mais de 2 anos de diferença na data
+
+			$anoAtual = $anoInicial;
+
+			for ($j = 1; $j < $diferencaAnos; $j++) { //loop que percorre os anos entre as duas datas e calcula seus dias
+				$anoAtual++;
+				$diasAnoAtual = geraDiasBissexto(verificaBissexto($anoAtual));
+				$diasTotais += $diasAnoAtual;
+			}
+		}
 	}
 
-	return($diasPrimeiroAno);
+	return ($diasTotais);
 }
 
 /***** Teste 01 *****/
@@ -206,7 +224,8 @@ $resultado = calculaDias($dataInicial, $dataFinal);
 verificaResultado("20", $resultadoEsperado, $resultado);
 
 
-function verificaResultado($nTeste, $resultadoEsperado, $resultado) {
+function verificaResultado($nTeste, $resultadoEsperado, $resultado)
+{
 
 	echo $nTeste, " ", $resultado, "\n";
 
@@ -216,5 +235,3 @@ function verificaResultado($nTeste, $resultadoEsperado, $resultado) {
 	// 	echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
 	// }
 }
-
-?>
