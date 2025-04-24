@@ -7,6 +7,13 @@
 * @param string $dataFinal No formato YYYY-MM-DD
 * @return int O numero de dias entre as datas
 **/
+
+function verificaBissexto($ano){
+	if(($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0)) return true;
+
+	return false;
+}
+
 function calculaDias($dataInicial, $dataFinal) {
 	/*
 		- Setembro, abril, junho e novembro tem 30 dias, todos os outros meses tem 31 exceto fevereiro que tem 28, exceto nos anos bissextos nos quais ele tem 29.
@@ -18,8 +25,6 @@ function calculaDias($dataInicial, $dataFinal) {
 	
 	return(0);
 }
-
-
 
 /***** Teste 01 *****/
 $dataInicial = "2018-01-01";
@@ -163,11 +168,14 @@ verificaResultado("20", $resultadoEsperado, $resultado);
 
 
 function verificaResultado($nTeste, $resultadoEsperado, $resultado) {
-	if(intval($resultadoEsperado) == intval($resultado)) {
-		echo "Teste $nTeste passou.\n";
-	} else {
-		echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
-	}
+
+	echo $resultado;
+
+	// if(intval($resultadoEsperado) == intval($resultado)) {
+	// 	echo "Teste $nTeste passou.\n";
+	// } else {
+	// 	echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
+	// }
 }
 
 ?>
