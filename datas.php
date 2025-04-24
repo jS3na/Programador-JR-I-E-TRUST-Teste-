@@ -8,10 +8,32 @@
 * @return int O numero de dias entre as datas
 **/
 
-function verificaBissexto($ano){
+/**
+ * verificar se o ano é bissexto
+ * calcular o restante dos dias primeiro mes e ano
+ */
+
+function verificaBissexto($ano){ //função para verificar se o ano é bissexto
 	if(($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0)) return true;
 
 	return false;
+}
+
+function geraModeloDias($bissexto){ //gera o modelo de dias com base se o ano é bissexto ou não
+	return [
+		1 => 31,
+		2 => $bissexto ? 29 : 28,
+		3 => 31,
+		4 => 30,
+		5 => 31,
+		6 => 30,
+		7 => 31,
+		8 => 31,
+		9 => 30,
+		10 => 31,
+		11 => 30,
+		12 => 31
+	];
 }
 
 function calculaDias($dataInicial, $dataFinal) {
@@ -22,8 +44,25 @@ function calculaDias($dataInicial, $dataFinal) {
 		- A regra acima não e valida para anos divisiveis por 100. Estes anos devem ser divisiveis por 400 para serem anos bissextos. Assim, o ano 1700, 1800, 1900 e 2100 nao sao bissextos, mas 2000 e bissexto.
 		- Não e permitido o uso de classes e funcoes de data da linguagem (DateTime, mktime, strtotime, etc).
 	*/
+
+	list($anoInicial, $mesInicial, $diaInicial) = array_map('intval', explode("-", $dataInicial)); //variaveis da data inicial (em inteiros)
+	list($anoFinal, $mesFinal, $diaFinal) = array_map('intval', explode("-", $dataFinal)); //variaveis da data final (em inteiros)
+
+	$diasPrimeiroMes = geraModeloDias(verificaBissexto($anoInicial))[$mesInicial] - $diaInicial; //calcula os dias restantes do primeiro mes
+
+	$diasPrimeiroAno = $diasPrimeiroMes;
 	
-	return(0);
+	if($anoFinal > $anoInicial){ //verifica se as datas iniciais e finais são de anos diferentes
+
+		$modeloDiasAnoInicial = geraModeloDias(verificaBissexto($anoInicial)); //gera o modelo de dias com base no ano inicial
+
+		for($i = $mesInicial + 1; $i <= 12; $i++){ //loop que percorre os meses até o fim do ano inicial
+			$diasPrimeiroAno += $modeloDiasAnoInicial[$i]; //resulta na quantidade de dias do ano inicial
+		}
+
+	}
+
+	return($diasPrimeiroAno);
 }
 
 /***** Teste 01 *****/
@@ -169,7 +208,7 @@ verificaResultado("20", $resultadoEsperado, $resultado);
 
 function verificaResultado($nTeste, $resultadoEsperado, $resultado) {
 
-	echo $resultado;
+	echo $nTeste, " ", $resultado, "\n";
 
 	// if(intval($resultadoEsperado) == intval($resultado)) {
 	// 	echo "Teste $nTeste passou.\n";
