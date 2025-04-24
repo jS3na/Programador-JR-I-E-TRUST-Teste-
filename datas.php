@@ -61,6 +61,8 @@ function calculaDias($dataInicial, $dataFinal)
 
     $diferencaAnos = $anoFinal - $anoInicial;
 
+	$modeloDiasAno = geraModeloDias(verificaBissexto($anoInicial)); //gera o modelo de dias com base no ano inicial
+
     if ($diferencaAnos > 0) { //verifica se as datas iniciais e finais são de anos diferentes
 
         /**
@@ -69,10 +71,8 @@ function calculaDias($dataInicial, $dataFinal)
 
         $diasTotais = geraModeloDias(verificaBissexto($anoInicial))[$mesInicial] - $diaInicial; //calcula os dias restantes do primeiro mes
 
-        $modeloDiasAnoInicial = geraModeloDias(verificaBissexto($anoInicial)); //gera o modelo de dias com base no ano inicial
-
         for ($i = $mesInicial + 1; $i <= 12; $i++) { //loop que percorre os meses até o fim do ano inicial
-            $diasTotais += $modeloDiasAnoInicial[$i]; //resulta na quantidade de dias do ano inicial
+            $diasTotais += $modeloDiasAno[$i]; //resulta na quantidade de dias do ano inicial
         }
 
         for ($j = 1; $j < $diferencaAnos; $j++) { //loop que percorre os anos entre as duas datas e calcula seus dias
@@ -96,11 +96,10 @@ function calculaDias($dataInicial, $dataFinal)
             return $diaFinal - $diaInicial; // subtrai os dias
         }
 
-        $modeloDiasAnoIgual = geraModeloDias(verificaBissexto($anoInicial)); // gera o modelo dos dias do ano das datas
-        $diasTotais = $modeloDiasAnoIgual[$mesInicial] - $diaInicial; // calcula os dias do primeiro mes
+        $diasTotais = $modeloDiasAno[$mesInicial] - $diaInicial; // calcula os dias do primeiro mes
 
         for ($k = $mesInicial + 1; $k < $mesFinal; $k++) { // loop que percorre os meses no intervalo entre o inicial e o final
-            $diasTotais += $modeloDiasAnoIgual[$k]; // soma os dias com base no modelo
+            $diasTotais += $modeloDiasAno[$k]; // soma os dias com base no modelo
         }
     }
 
