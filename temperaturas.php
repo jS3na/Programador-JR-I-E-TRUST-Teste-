@@ -6,31 +6,29 @@
 * @param array $temperaturas Lista de temperaturas
 * @return int A temperatura mais proxima de zero
 **/
-function menorTemperatura($temperaturas) {
+function menorTemperatura($temperaturas)
+{
 
-	
-	$maisProximoZero = null; // inicializa o maisProximoZero como null, pois pode ser que o mais proximo de 0 seja o proprio 0
-	
-	foreach($temperaturas as $temperatura){ // loop que percorre o array
+    $maisProximoZero = null; // inicializa o maisProximoZero como null, pois pode ser que o mais proximo de 0 seja o proprio 0
 
-		if($maisProximoZero === null){ // se for a primeira iteração, ele define o maisProximoZero como o primeiro numero do array
-			$maisProximoZero = $temperatura;
-			continue; // esse continue é para ele partir para o próximo ciclo no primeiro número
-		}
+    foreach ($temperaturas as $temperatura) { // loop que percorre o array
+        if ($maisProximoZero === null) { // se for a primeira iteração, ele define o maisProximoZero como o primeiro numero do array
+            $maisProximoZero = $temperatura;
+            continue; // esse continue é para ele partir para o próximo ciclo no primeiro número
+        }
 
-		// essas duas linhas fazem a verificação de que se a temperatura for positiva, usa ela mesmo, e se não, transforma em positiva
-		$difAtual = $temperatura > 0 ? $temperatura : ($temperatura * -1); // diferença de 0 da temperatura atual
-		$difMenor = $maisProximoZero > 0 ? $maisProximoZero : ($maisProximoZero * -1); // diferença de 0 da temperatura que foi definida como menor até então
+        // essas duas linhas fazem a verificação de que se a temperatura for positiva, usa ela mesmo, e se não, transforma em positiva
+        $difAtual = $temperatura > 0 ? $temperatura : ($temperatura * -1); // diferença de 0 da temperatura atual
+        $difMenor = $maisProximoZero > 0 ? $maisProximoZero : ($maisProximoZero * -1); // diferença de 0 da temperatura que foi definida como menor até então
 
-		if($difAtual < $difMenor){ // verifica se a diferença da temperatura atual for menor que a diferença da temperatura definida
-			$maisProximoZero = $temperatura;
-		}
-		else if($difAtual === $difMenor && $temperatura > $maisProximoZero){ // verifica se as distâncias são iguais e coloca como prioridade a positiva
-			$maisProximoZero = $temperatura;
-		}
-	}
+        if ($difAtual < $difMenor) { // verifica se a diferença da temperatura atual for menor que a diferença da temperatura definida
+            $maisProximoZero = $temperatura;
+        } elseif ($difAtual === $difMenor && $temperatura > $maisProximoZero) { // verifica se as distâncias são iguais e coloca como prioridade a positiva
+            $maisProximoZero = $temperatura;
+        }
+    }
 
-	return $maisProximoZero;
+    return $maisProximoZero;
 }
 
 
@@ -93,12 +91,11 @@ $resultado = menorTemperatura($temperaturas);
 verificaResultado("09", $resultadoEsperado, $resultado);
 
 
-function verificaResultado($nTeste, $resultadoEsperado, $resultado) {
-	if(intval($resultadoEsperado) === intval($resultado)) {
-		echo "Teste $nTeste passou.\n";
-	} else {
-		echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
-	}
+function verificaResultado($nTeste, $resultadoEsperado, $resultado)
+{
+    if (intval($resultadoEsperado) === intval($resultado)) {
+        echo "Teste $nTeste passou.\n";
+    } else {
+        echo "Teste $nTeste NAO passou (Resultado esperado = $resultadoEsperado, Resultado obtido = $resultado).\n";
+    }
 }
-
-?>
