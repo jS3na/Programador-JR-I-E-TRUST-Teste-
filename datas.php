@@ -58,11 +58,11 @@ function calculaDias($dataInicial, $dataFinal)
 
 	$diferencaAnos = $anoFinal - $anoInicial;
 
-	/**
-	 * CASO AS DATAS FOREM DE ANOS DIFERENTES
-	 */
-
 	if ($diferencaAnos > 0) { //verifica se as datas iniciais e finais são de anos diferentes
+
+		/**
+		 * CASO AS DATAS FOREM DE ANOS DIFERENTES
+		 */
 
 		$diasTotais = geraModeloDias(verificaBissexto($anoInicial))[$mesInicial] - $diaInicial; //calcula os dias restantes do primeiro mes
 
@@ -83,27 +83,26 @@ function calculaDias($dataInicial, $dataFinal)
 		for ($i = 1; $i < $mesFinal; $i++) { //lopp que percorre os meses do ultimo ano
 			$diasTotais += $modeloDiasAnoFinal[$i]; //soma dos dias do ultimo ano
 		}
+	} else {
 
-		$diasTotais += $diaFinal; //soma os ultimos dias, do ultimo mês, do ultimo ano
+		/**
+		 * CASO AS DATAS FOREM DE ANOS IGUAIS
+		 */
 
-		return $diasTotais;
+		if ($mesInicial === $mesFinal) { // verifica se são do mesmo mes
+			return $diaFinal - $diaInicial; // subtrai os dias
+		}
+
+		$modeloDiasAnoIgual = geraModeloDias(verificaBissexto($anoInicial)); // gera o modelo dos dias do ano das datas
+		$diasTotais = $modeloDiasAnoIgual[$mesInicial] - $diaInicial; // calcula os dias do primeiro mes
+
+		for ($k = $mesInicial + 1; $k < $mesFinal; $k++) { // loop que percorre os meses no intervalo entre o inicial e o final
+			$diasTotais += $modeloDiasAnoIgual[$k]; // soma os dias com base no modelo
+		}
+		
 	}
 
-	/**
-	 * CASO AS DATAS FOREM DE ANOS IGUAIS
-	 */
-
-	if ($mesInicial === $mesFinal) { // verifica se são do mesmo mes
-		return $diaFinal - $diaInicial; // subtrai os dias
-	}
-
-	$modeloDiasAnoIgual = geraModeloDias(verificaBissexto($anoInicial)); // gera o modelo dos dias do ano das datas
-	$diasTotais = $modeloDiasAnoIgual[$mesInicial] - $diaInicial; // calcula os dias do primeiro mes
-
-	for ($k = $mesInicial + 1; $k < $mesFinal; $k++) { // loop que percorre os meses no intervalo entre o inicial e o final
-		$diasTotais += $modeloDiasAnoIgual[$k]; // soma os dias com base no modelo
-	}
-	$diasTotais += $diaFinal; // soma dos ultimos dias do ultimo mes
+	$diasTotais += $diaFinal; // soma dos ultimos dias, do ultimo mês, do último ano
 
 	return $diasTotais;
 }
