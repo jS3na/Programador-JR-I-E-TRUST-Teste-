@@ -17,9 +17,7 @@
 
 function verificaBissexto($ano)
 { //função para verificar se o ano é bissexto
-	if (($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0)) return true;
-
-	return false;
+	return (($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0))
 }
 
 function geraModeloDias($bissexto)
