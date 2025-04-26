@@ -16,13 +16,13 @@
  */
 
 //função para verificar se o ano é bissexto
-function verificaBissexto($ano)
+function verificaBissexto($ano): bool
 {
     return (($ano % 4 == 0 && $ano % 100 != 0) || ($ano % 400 == 0));
 }
 
 //gera o modelo de dias com base se o ano é bissexto ou não
-function geraModeloDias($bissexto)
+function geraModeloDias($bissexto): array
 {
     return [
         1 => 31,
@@ -41,7 +41,7 @@ function geraModeloDias($bissexto)
 }
 
 //gera os dias do ano com base se ele é bissexto ou não
-function geraDiasBissexto($bissexto)
+function geraDiasBissexto($bissexto): int
 {
     return $bissexto ? 366 : 365;
 }
