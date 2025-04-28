@@ -4,16 +4,6 @@ namespace Classes;
 
 class CalculadoraData
 {
-
-    private $dataInicial;
-    private $dataFinal;
-
-    public function __construct($dataInicial, $dataFinal)
-    {
-        $this->dataInicial = $dataInicial;
-        $this->dataFinal = $dataFinal;
-    }
-
     //função para verificar se o ano é bissexto
     private function verificaBissexto($ano): bool
     {
@@ -45,10 +35,10 @@ class CalculadoraData
         return $bissexto ? 366 : 365;
     }
 
-    public function calculaDias(): int
+    public function calculaDias($dataInicial, $dataFinal): int
     {
-        list($anoInicial, $mesInicial, $diaInicial) = array_map('intval', explode("-", $this->dataInicial)); //variaveis da data inicial (em inteiros)
-        list($anoFinal, $mesFinal, $diaFinal) = array_map('intval', explode("-", $this->dataFinal)); //variaveis da data final (em inteiros)
+        list($anoInicial, $mesInicial, $diaInicial) = array_map('intval', explode("-", $dataInicial)); //variaveis da data inicial (em inteiros)
+        list($anoFinal, $mesFinal, $diaFinal) = array_map('intval', explode("-", $dataFinal)); //variaveis da data final (em inteiros)
 
         $diferencaAnos = $anoFinal - $anoInicial;
 
